@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: finche-gateway
+
+info:
+  component: API Gateway
+
+server:
+  port: 8105
+
+# Eureka config
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: false
+
+# Ribbon config
+ribbon:
+  eureka:
+    enabled: true
+
+zuul:
+  #
+  prefix: /api
+  routes:
+    db:
+      path: /db/**
+      serviceId: db-service
+      url: http://localhost:8102
+    auth:
+      path: /auth/**
+      serviceId: login-service
+      url: http://localhost:8103
+    registration:
+      path: /registration/**
+      serviceId: registration-service
+      url: http://localhost:8104
+
+endpoints:
+  routes:
+    sensitive: false

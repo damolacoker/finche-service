@@ -20,6 +20,9 @@ ribbon:
   eureka:
     enabled: true
 
+logging:
+  file: gateway.log
+
 zuul:
   #
   prefix: /api
@@ -36,6 +39,10 @@ zuul:
       path: /registration/**
       serviceId: registration-service
       url: http://localhost:8104
+    notification:
+      path: /notification/**
+      serviceId: notification-service
+      url:  http://localhost:8106
 
 endpoints:
   routes:

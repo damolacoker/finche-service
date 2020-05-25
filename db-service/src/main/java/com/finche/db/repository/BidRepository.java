@@ -12,7 +12,11 @@ import java.util.concurrent.CompletableFuture;
 @Repository
 public interface BidRepository extends MongoRepository<Bid, String> {
     CompletableFuture<Page<Bid>> findAllBy(final Pageable pageable);
+
     CompletableFuture<Bid> findOneById(final String id);
+
     CompletableFuture<List<Bid>> findAllBy();
+
+    CompletableFuture<Bid> findOneByName(final String projectName);
 
 }

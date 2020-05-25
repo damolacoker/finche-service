@@ -3,6 +3,7 @@ package com.finche.db.resource;
 import com.finche.db.handle.PropertyHandle;
 import com.finche.db.model.Property;
 import com.finche.db.service.PropertyService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,24 +16,25 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/property/")
+@Api(value = "Property Resource REST Endpoint")
 public class PropertyResource {
 
     @Autowired
     private PropertyService propertyService;
 
-    @PostMapping(value = "/createproperty", consumes={MediaType.APPLICATION_JSON_VALUE},
-            produces={MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity createProperty(@Valid @RequestBody Property property){
+    @PostMapping(value = "/createproperty", consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity createProperty(@Valid @RequestBody Property property) {
         try {
             propertyService.create(property);
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    @GetMapping( value = "/getproperties" ,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public CompletableFuture<ResponseEntity> getProperties(final Pageable paging){
+    @GetMapping(value = "/getproperties", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public CompletableFuture<ResponseEntity> getProperties(final Pageable paging) {
         return propertyService
                 .findAll(paging)
                 .<ResponseEntity>thenApply(ResponseEntity::ok)
@@ -50,11 +52,11 @@ public class PropertyResource {
 
     @PutMapping(value = "/delete/{propertyId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity deleteProperty(@PathVariable final String propertyId){
+    public ResponseEntity deleteProperty(@PathVariable final String propertyId) {
         try {
             propertyService.delete(propertyId);
             return ResponseEntity.status(HttpStatus.OK).build();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

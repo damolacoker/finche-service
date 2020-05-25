@@ -12,6 +12,8 @@ import java.util.concurrent.CompletableFuture;
 @Repository
 public interface ContractRepository extends MongoRepository<Contract, String> {
     CompletableFuture<Page<Contract>> findAllBy(final Pageable pageable);
+
     CompletableFuture<Contract> findOneById(final String id);
+
     CompletableFuture<List<Contract>> findAllBy();
 }

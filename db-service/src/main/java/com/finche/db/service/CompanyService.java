@@ -22,7 +22,14 @@ public class CompanyService {
 
 
     public Optional<Company> create(Company company) {
-        return Optional.ofNullable(companyRepository.save(company));
+        return Optional.ofNullable(
+                companyRepository.save(company));
+    }
+
+    public CompletableFuture<Optional<Company>> createWithCompletableFuture(Company company) {
+        return CompletableFuture
+                .completedFuture(
+                        Optional.ofNullable(companyRepository.save(company)));
     }
 
     @Async("threadPoolTaskExecutor")

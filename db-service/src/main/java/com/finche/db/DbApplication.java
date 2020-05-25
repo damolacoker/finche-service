@@ -12,7 +12,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @EnableEurekaClient
 @EnableFeignClients
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableAsync
 public class DbApplication {
 

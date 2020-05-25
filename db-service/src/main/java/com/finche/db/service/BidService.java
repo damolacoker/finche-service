@@ -22,6 +22,7 @@ public class BidService {
 
 
     public Optional<Bid> create(Bid bid) {
+
         return Optional.ofNullable(bidRepository.save(bid));
     }
 
@@ -36,7 +37,15 @@ public class BidService {
 
     @Async("threadPoolTaskExecutor")
     public CompletableFuture<Optional<Bid>> findOneById(String id) {
-        return bidRepository.findOneById(id).thenApply(Optional::ofNullable);
+        return bidRepository
+                .findOneById(id)
+                .thenApply(Optional::ofNullable);
+    }
+
+    public CompletableFuture<Optional<Bid>> findOneByName(String projectName) {
+        return bidRepository
+                .findOneByName(projectName)
+                .thenApplyAsync(Optional::ofNullable);
     }
 
     @Async("threadPoolTaskExecutor")
@@ -44,7 +53,12 @@ public class BidService {
         return bidRepository.findAllBy();
     }
 
-    public boolean delete(Bid bid) {
-        return false;
+    public void delete(String bidId) {
+        bidRepository.findOneById(bidId)
+                .thenAccept(bid -> bidRepository.delete(bid))
+                .exceptionally(throwable -> {
+                    log.error("Unable to delete bid", throwable);
+                    return null;
+                });
     }
 }

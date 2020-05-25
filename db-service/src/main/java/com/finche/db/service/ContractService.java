@@ -15,9 +15,9 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @Slf4j
-public class ContractService{
+public class ContractService {
 
-   @Autowired
+    @Autowired
     private ContractRepository contractRepository;
 
     public Optional<Contract> create(Contract contract) {
@@ -48,6 +48,6 @@ public class ContractService{
                 }).exceptionally(throwable -> {
             log.error("Unable to delete contract", throwable);
             return null;
-                });
+        });
     }
 }

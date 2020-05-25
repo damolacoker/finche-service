@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RegistrationController {
 
-   @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String getMessage(){
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    public String getMessage() {
         return "Hello world";
     }
 }

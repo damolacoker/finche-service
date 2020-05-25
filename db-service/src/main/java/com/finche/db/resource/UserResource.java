@@ -3,6 +3,7 @@ package com.finche.db.resource;
 import com.finche.db.handle.UserHandle;
 import com.finche.db.model.User;
 import com.finche.db.service.UserService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,24 +20,25 @@ import static com.finche.db.handle.UserHandle.mapMaybeUserToResponse;
 @Slf4j
 @RestController
 @RequestMapping("/user/")
+@Api(value = "User Resource REST Endpoint")
 public class UserResource {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/createuser", consumes={MediaType.APPLICATION_JSON_VALUE},
-            produces={MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity createUser(@Valid @RequestBody User user){
+    @PostMapping(value = "/createuser", consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity createUser(@Valid @RequestBody User user) {
         try {
             userService.create(user);
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    @GetMapping(value = "/getusers",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public CompletableFuture<ResponseEntity> getUsers(final Pageable paging){
+    @GetMapping(value = "/getusers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public CompletableFuture<ResponseEntity> getUsers(final Pageable paging) {
         return userService
                 .findAll(paging)
                 .<ResponseEntity>thenApply(ResponseEntity::ok)
@@ -63,11 +65,11 @@ public class UserResource {
 
     @PutMapping(value = "/delete/{username}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity deleteUser(@PathVariable final String username){
+    public ResponseEntity deleteUser(@PathVariable final String username) {
         try {
             userService.delete(username);
             return ResponseEntity.status(HttpStatus.OK).build();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

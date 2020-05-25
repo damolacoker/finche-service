@@ -10,7 +10,7 @@ public enum Status {
 
     private String description;
 
-    Status(String description){
+    Status(String description) {
         this.description = description;
     }
 

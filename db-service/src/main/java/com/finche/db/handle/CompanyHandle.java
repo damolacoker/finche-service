@@ -24,4 +24,9 @@ public class CompanyHandle {
         log.error(String.format("Unable to retrieve company for id: %s", companyId), throwable);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     };
+
+    public static Function<Throwable, Void> handleCreateCompanyFailure = throwable -> {
+        log.error(String.format("Unable to create company for id: %s"), throwable);
+        return null;
+    };
 }

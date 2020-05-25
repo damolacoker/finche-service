@@ -47,14 +47,14 @@ public class UserService {
     }
 
     @Async("threadPoolTaskExecutor")
-    public void delete(String userName){
+    public void delete(String userName) {
         userRepository.findOneByUsername(userName)
                 .thenAccept(user -> {
                     userRepository.delete(user);
                 }).exceptionally(
-                        throwable -> {
-                            log.error("Unable to delete user", throwable);
-                            return null;
-                        });
+                throwable -> {
+                    log.error("Unable to delete user", throwable);
+                    return null;
+                });
     }
 }

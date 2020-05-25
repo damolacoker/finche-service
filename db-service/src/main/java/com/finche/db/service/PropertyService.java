@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @Slf4j
-public class PropertyService{
+public class PropertyService {
 
     @Autowired
     private PropertyRepository propertyRepository;

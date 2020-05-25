@@ -12,7 +12,10 @@ import java.util.concurrent.CompletableFuture;
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
     CompletableFuture<Page<User>> findAllBy(final Pageable pageable);
+
     CompletableFuture<User> findOneById(final String id);
+
     CompletableFuture<List<User>> findAllBy();
+
     CompletableFuture<User> findOneByUsername(final String username);
 }

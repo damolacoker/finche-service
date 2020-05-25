@@ -3,6 +3,7 @@ package com.finche.db.resource;
 import com.finche.db.handle.ProjectHandle;
 import com.finche.db.model.Project;
 import com.finche.db.service.ProjectService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,24 +16,25 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/project/")
+@Api(value = "Project Resource REST Endpoint")
 public class ProjectResource {
 
-        @Autowired
-        private ProjectService projectService;
+    @Autowired
+    private ProjectService projectService;
 
-    @PostMapping(value = "/createproject", consumes={MediaType.APPLICATION_JSON_VALUE},
-            produces={MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity createProject(@Valid @RequestBody Project project){
+    @PostMapping(value = "/createproject", consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity createProject(@Valid @RequestBody Project project) {
         try {
             projectService.create(project);
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    @GetMapping( value = "/getprojects" ,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public CompletableFuture<ResponseEntity> getProjects(final Pageable paging){
+    @GetMapping(value = "/getprojects", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public CompletableFuture<ResponseEntity> getProjects(final Pageable paging) {
         return projectService
                 .findAll(paging)
                 .<ResponseEntity>thenApply(ResponseEntity::ok)
@@ -50,11 +52,11 @@ public class ProjectResource {
 
     @PutMapping(value = "/delete/{projectId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity deletePropject(@PathVariable final String projectId){
+    public ResponseEntity deletePropject(@PathVariable final String projectId) {
         try {
             projectService.delete(projectId);
             return ResponseEntity.status(HttpStatus.OK).build();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

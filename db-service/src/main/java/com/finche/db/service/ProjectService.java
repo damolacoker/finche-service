@@ -32,7 +32,9 @@ public class ProjectService {
 
     @Async("threadPoolTaskExecutor")
     public CompletableFuture<Optional<Project>> findOneById(String id) {
-        return projectRepository.findOneById(id).thenApply(Optional::ofNullable);
+        return projectRepository
+                .findOneById(id)
+                .thenApplyAsync(Optional::ofNullable);
     }
 
     @Async("threadPoolTaskExecutor")
@@ -46,6 +48,7 @@ public class ProjectService {
                 .thenAccept(project -> projectRepository.delete(project))
                 .exceptionally(throwable -> {
                     log.error("Unable to delete project", throwable);
-                    return null;});
+                    return null;
+                });
     }
 }

@@ -44,6 +44,8 @@ zuul:
       serviceId: notification-service
       url:  http://localhost:8106
 
+
+
 endpoints:
   routes:
     sensitive: false

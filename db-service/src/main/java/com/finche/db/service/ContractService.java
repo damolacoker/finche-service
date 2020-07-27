@@ -43,9 +43,7 @@ public class ContractService {
     public void delete(String contractId) {
         contractRepository
                 .findOneById(contractId)
-                .thenAccept(contract -> {
-                    contractRepository.delete(contract);
-                }).exceptionally(throwable -> {
+                .thenAccept(contract -> contractRepository.delete(contract)).exceptionally(throwable -> {
             log.error("Unable to delete contract", throwable);
             return null;
         });

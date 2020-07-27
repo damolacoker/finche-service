@@ -22,4 +22,6 @@ public class Documents {
     private String name;
 
     private DocumentType documentType;
+
+    private String filePath;
 }

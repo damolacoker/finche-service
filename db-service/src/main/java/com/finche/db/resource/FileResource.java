@@ -29,11 +29,10 @@ public class FileResource {
     @PostMapping(value = "/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile uploadFile,
                                              final HttpServletRequest request) {
-
-        log.debug("Single file upload!");
-        log.debug("fileName : " + uploadFile.getOriginalFilename());
-        log.debug("contentType : " + uploadFile.getContentType());
-        log.debug("contentSize : " + uploadFile.getSize());
+        log.info("Single file upload!");
+        log.info("fileName : " + uploadFile.getOriginalFilename());
+        log.info("contentType : " + uploadFile.getContentType());
+        log.info("contentSize : " + uploadFile.getSize());
 
         if (uploadFile.isEmpty()) {
             return new ResponseEntity<String>("please select a file!", HttpStatus.OK);
@@ -43,8 +42,10 @@ public class FileResource {
             /** File will get saved to file system and database */
             fileService.saveUploadedFiles(Arrays.asList(uploadFile));
         } catch (IOException e) {
+            log.error("Exception: "+e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        log.info("Successfully uploaded - " + uploadFile.getOriginalFilename());
         return new ResponseEntity<String>("Successfully uploaded - " + uploadFile.getOriginalFilename(),
                 new HttpHeaders(), HttpStatus.OK);
     }

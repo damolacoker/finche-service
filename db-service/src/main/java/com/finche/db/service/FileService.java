@@ -21,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @Slf4j
 public class FileService {
-    private static String UPLOADED_FOLDER = "C:/work/spring-boot-work/upload/";
+    private static String UPLOADED_FOLDER = "/Users/sodamolacoker/Desktop/upload/";
 
     @Autowired
     private FileRepository fileRepository;
@@ -66,7 +66,7 @@ public class FileService {
                 continue;
             }
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Path path = Paths.get(UPLOADED_FOLDER+file.getOriginalFilename());
             Files.write(path, bytes);
             Documents doc = new Documents();
             doc.setName(file.getOriginalFilename());

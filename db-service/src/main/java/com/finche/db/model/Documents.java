@@ -6,6 +6,9 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -16,10 +19,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "documents")
 public class Documents {
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private String id;
+    private long id;
 
     private String name;
+
+    private String contentType;
+
+    private long contentSize;
 
     private DocumentType documentType;
 

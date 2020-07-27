@@ -1,6 +1,5 @@
 package com.finche.db.service;
 
-import com.finche.db.model.Contract;
 import com.finche.db.model.Documents;
 import com.finche.db.repository.FileRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -17,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @Slf4j
 public class FileService {
+    private static String UPLOADED_FOLDER = "C:/work/spring-boot-work/upload/";
 
     @Autowired
     private FileRepository fileRepository;
@@ -53,6 +58,22 @@ public class FileService {
             log.error("Unable to delete document", throwable);
             return null;
         });
+    }
+
+    public void saveUploadedFiles(List<MultipartFile> files) throws IOException {
+        for (MultipartFile file : files) {
+            if (file.isEmpty()) {
+                continue;
+            }
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Files.write(path, bytes);
+            Documents doc = new Documents();
+            doc.setName(file.getOriginalFilename());
+            doc.setContentSize(file.getSize());
+            doc.setContentType(file.getContentType());
+            create(doc);
+        }
     }
 
 }
